@@ -12,6 +12,7 @@ import com.example.budgetapp.R;
 import com.example.budgetapp.models.Transaction;
 import com.example.budgetapp.models.User;
 
+import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -46,7 +47,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         Transaction transaction =transactionList.get(position);
         holder.textAmount.setText(String.valueOf(transaction.getAmount()    ));
         holder.textDescription.setText(transaction.getDescription());
-        holder.textCreated_at.setText(transaction.getCreated_at());
+        try {
+            holder.textCreated_at.setText(transaction.getCreated_at());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-                
+
             }
 
             @Override
