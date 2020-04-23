@@ -11,8 +11,8 @@ public class Transaction {
     private double amount;
     private String created_at;
 
-    public Transaction(int id, double amount, int category_id, String description, String attachment, String created_at) {
-        this.id = id;
+    public Transaction( double amount, int category_id, String description, String attachment, String created_at) {
+
         this.amount = amount;
         this.category_id = category_id;
         this.description = description;
