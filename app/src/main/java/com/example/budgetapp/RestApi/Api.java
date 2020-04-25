@@ -2,6 +2,7 @@ package com.example.budgetapp.RestApi;
 
 import com.example.budgetapp.models.AuthRequest;
 import com.example.budgetapp.models.AuthResponse;
+import com.example.budgetapp.models.Category;
 import com.example.budgetapp.models.Transaction;
 import com.example.budgetapp.models.TransactionRequest;
 import com.example.budgetapp.models.TransactionsResponse;
@@ -32,4 +33,7 @@ public interface Api {
 
     @POST("/transactions")
     Call<Transaction> createTransaction(@Header("Authorization") String jwt, @Body TransactionRequest transactionRequest);
+
+    @GET("/categories")
+    Call<List<Category>> getCategories(@Header("Authorization") String jwt);
 }

@@ -26,7 +26,6 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     private TextView text_balance;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -45,13 +44,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 User user = response.body();
-
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
     }
