@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.example.budgetapp.Activity.ui.categories.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:name="com.example.budgetapp.Activity.ui.categories.CategoriesFragment"
+        android:label="@string/title_categories"
         tools:layout="@layout/fragment_categories" />
 </navigation>

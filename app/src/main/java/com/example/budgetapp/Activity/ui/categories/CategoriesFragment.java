@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.budgetapp.R;
 
-public class NotificationsFragment extends Fragment {
+public class CategoriesFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
