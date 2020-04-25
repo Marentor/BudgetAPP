@@ -52,10 +52,10 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        upload_btn=(Button) findViewById(R.id.btn_add);
-        imageView=(ImageView) findViewById(R.id.imageView8);
-        text_Amount=(EditText) findViewById(R.id.text_amount);
-        text_description=(EditText) findViewById(R.id.text_description);
+        upload_btn = (Button) findViewById(R.id.btn_add);
+        imageView = (ImageView) findViewById(R.id.imageView8);
+        text_Amount = (EditText) findViewById(R.id.text_amount);
+        text_description = (EditText) findViewById(R.id.text_description);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +71,7 @@ public class AddActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -85,12 +86,12 @@ public class AddActivity extends AppCompatActivity {
         loading.show();
         loading.setCanceledOnTouchOutside(false);
         String description = text_description.getText().toString();
-        String amount  = text_Amount.getText().toString().toString();
+        String amount = text_Amount.getText().toString().toString();
 
-        transaction=new TransactionRequest(description);
+        transaction = new TransactionRequest(description);
         transaction.setAmount(amount);
         transaction.setAttachment(attachment);
-        Call<Transaction> call=RetrofitClient.getInstance().getApi().createTransaction(SharedPrefManager.getInstance(AddActivity.this).getjwt(),transaction);
+        Call<Transaction> call = RetrofitClient.getInstance().getApi().createTransaction(SharedPrefManager.getInstance(AddActivity.this).getjwt(), transaction);
         call.enqueue(new Callback<Transaction>() {
             @Override
             public void onResponse(Call<Transaction> call, Response<Transaction> response) {
@@ -103,7 +104,7 @@ public class AddActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Transaction> call, Throwable t) {
-                Toast.makeText(AddActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(AddActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -112,7 +113,7 @@ public class AddActivity extends AppCompatActivity {
 
     private void selectImage() {
         if (EasyPermissions.hasPermissions(this, galleryPermissions)) {
-            Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 2);
         } else {
             EasyPermissions.requestPermissions(this, "Access for storage",
@@ -128,19 +129,20 @@ public class AddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
-        }Uri selectedImage = data.getData();
-            String[] filePath = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePath[0]);
-            String picturePath = c.getString(columnIndex);
-            c.close();
-            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-            thumbnail = getResizedBitmap(thumbnail, 400);
-            imageView.setImageBitmap(thumbnail);
+        }
+        Uri selectedImage = data.getData();
+        String[] filePath = {MediaStore.Images.Media.DATA};
+        Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+        c.moveToFirst();
+        int columnIndex = c.getColumnIndex(filePath[0]);
+        String picturePath = c.getString(columnIndex);
+        c.close();
+        Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+        thumbnail = getResizedBitmap(thumbnail, 400);
+        imageView.setImageBitmap(thumbnail);
         BitMapToString(thumbnail);
 
-        }
+    }
 
     public String BitMapToString(Bitmap userImage1) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -154,7 +156,7 @@ public class AddActivity extends AppCompatActivity {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);

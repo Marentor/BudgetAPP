@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class User {
 
-    private  int id;
+    private int id;
     private String created_at;
     private double Balance;
 

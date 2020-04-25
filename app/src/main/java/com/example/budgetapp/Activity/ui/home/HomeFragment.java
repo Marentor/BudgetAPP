@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        text_balance=root.findViewById(R.id.text_balance);
+        text_balance = root.findViewById(R.id.text_balance);
 
         return root;
     }
@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Call<User> usercall = RetrofitClient
-                .getInstance().getApi().userLogin(  SharedPrefManager.getInstance(getActivity()).getjwt());
+                .getInstance().getApi().userLogin(SharedPrefManager.getInstance(getActivity()).getjwt());
         usercall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

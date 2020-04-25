@@ -29,19 +29,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText userText;
     private EditText passwordText;
-    private  Button loginButton;
+    private Button loginButton;
     private TextView signupLink;
     private ProgressBar progressBar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userText=(EditText) findViewById(R.id.input_username) ;
-        passwordText=(EditText) findViewById(R.id.input_password);
-        loginButton=(Button) findViewById(R.id.btn_login) ;
-        signupLink=(TextView) findViewById(R.id.link_signup);
-        progressBar=(ProgressBar) findViewById(R.id.progressBar);
+        userText = (EditText) findViewById(R.id.input_username);
+        passwordText = (EditText) findViewById(R.id.input_password);
+        loginButton = (Button) findViewById(R.id.btn_login);
+        signupLink = (TextView) findViewById(R.id.link_signup);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -73,27 +74,27 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         String username = userText.getText().toString();
         String password = passwordText.getText().toString();
-        AuthRequest request=new AuthRequest(username,password );
-        Call<AuthResponse> call= RetrofitClient
+        AuthRequest request = new AuthRequest(username, password);
+        Call<AuthResponse> call = RetrofitClient
                 .getInstance().getApi().getjwt(request);
 
         call.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.body() != null) {
-                    AuthResponse authResponse =response.body();
+                    AuthResponse authResponse = response.body();
                     SharedPrefManager.getInstance(LoginActivity.this).saveJwt("Bearer " + authResponse.getJwt());
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
 
 
                 }
             }
+
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
 
 
         new android.os.Handler().postDelayed(
@@ -101,19 +102,16 @@ public class LoginActivity extends AppCompatActivity {
                     // On complete call either onLoginSuccess or onLoginFailed
                     onLoginSuccess();
                     // onLoginFailed();
-                    progressBar.setVisibility(View.GONE);;
+                    progressBar.setVisibility(View.GONE);
+                    ;
                 }, 3000);
     }
-
-
-
-
 
 
     public void onLoginSuccess() {
         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_LONG).show();
         loginButton.setEnabled(true);
-        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
@@ -131,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         String username = userText.getText().toString();
         String password = passwordText.getText().toString();
 
-        if (username.isEmpty() ) {
+        if (username.isEmpty()) {
             userText.setError("enter a username");
             valid = false;
         } else {

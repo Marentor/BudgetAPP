@@ -7,15 +7,14 @@ import java.util.Date;
 
 public class TransactionRequest {
     private int category_id;
-    private String description,attachment;
+    private String description, attachment;
     private double amount;
 
-    public TransactionRequest(  String description ) {
+    public TransactionRequest(String description) {
 
         this.description = description;
 
     }
-
 
 
     public double getAmount() {
@@ -23,14 +22,13 @@ public class TransactionRequest {
     }
 
     public void setAmount(String amount) {
-            try
-            {
-                this.amount= Double.parseDouble(amount);
-                // it means it is double
-            } catch (Exception e1) {
-                // this means it is not double
-                e1.printStackTrace();
-            }
+        try {
+            this.amount = Double.parseDouble(amount);
+            // it means it is double
+        } catch (Exception e1) {
+            // this means it is not double
+            e1.printStackTrace();
+        }
     }
 
     public int getCategory_id() {

@@ -6,12 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
-    private int id,category_id;
-    private String description,attachment;
+    private int id, category_id;
+    private String description, attachment;
     private double amount;
     private String created_at;
 
-    public Transaction( double amount, int category_id, String description, String attachment, String created_at) {
+    public Transaction(double amount, int category_id, String description, String attachment, String created_at) {
 
         this.amount = amount;
         this.category_id = category_id;
@@ -31,8 +31,8 @@ public class Transaction {
     public String getCreated_at() throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ");
         SimpleDateFormat formatter2 = new SimpleDateFormat("dd MMMM yyyy");
-        Date date= formatter.parse(created_at.replaceAll("Z$", "+0000"));
-        created_at=formatter2.format(date);
+        Date date = formatter.parse(created_at.replaceAll("Z$", "+0000"));
+        created_at = formatter2.format(date);
         return created_at;
     }
 

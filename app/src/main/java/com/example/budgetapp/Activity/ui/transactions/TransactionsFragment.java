@@ -46,9 +46,9 @@ public class TransactionsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_transactions, container, false);
-        recyclerView=root.findViewById(R.id.recyclerView);
+        recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter=new TransactionsAdapter(getActivity(),transactionList);
+        adapter = new TransactionsAdapter(getActivity(), transactionList);
         recyclerView.setAdapter(adapter);
         fab = root.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -65,30 +65,29 @@ public class TransactionsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Call<List<Transaction>> call= RetrofitClient.getInstance().getApi().getTransactions(SharedPrefManager.getInstance(getActivity()).getjwt());
+        Call<List<Transaction>> call = RetrofitClient.getInstance().getApi().getTransactions(SharedPrefManager.getInstance(getActivity()).getjwt());
 
         call.enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
-                 transactionList=response.body();
-                 adapter=new TransactionsAdapter(getActivity(),transactionList);
-                 recyclerView.setAdapter(adapter);
+                transactionList = response.body();
+                adapter = new TransactionsAdapter(getActivity(), transactionList);
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onFailure(Call<List<Transaction>> call, Throwable t) {
-                Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
-    });
+        });
 
     }
 
-    private void openAddTransactionActivity(){
-        Intent intent=new Intent(getActivity(), AddActivity.class);
+    private void openAddTransactionActivity() {
+        Intent intent = new Intent(getActivity(), AddActivity.class);
         startActivity(intent);
     }
-
 
 
 }
