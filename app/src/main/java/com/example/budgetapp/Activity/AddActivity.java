@@ -96,7 +96,7 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Transaction> call, Response<Transaction> response) {
                 loading.dismiss();
-                if (response.code() == 200) {
+                if (response.code() == 201) {
                     Toast.makeText(AddActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
                     finish();
                 }
