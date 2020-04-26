@@ -7,23 +7,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
+import com.example.budgetapp.RestApi.RetrofitClient;
 import com.example.budgetapp.models.Category;
+import com.example.budgetapp.storage.SharedPrefManager;
 
 import java.text.ParseException;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder> {
     private Context mContext;
     private List<Category> categoryList;
+    private String jwt;
 
-    public CategoriesAdapter(Context mContext, List<Category> categoryList) {
+    public CategoriesAdapter(Context mContext, List<Category> categoryList, String jwt) {
         this.mContext = mContext;
         this.categoryList = categoryList;
+        this.jwt = jwt;
     }
 
     public List<Category> getCategoryList() {
@@ -33,10 +42,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     public void setCategoryList(List<Category> categoryList) {
         this.categoryList = categoryList;
         this.notifyDataSetChanged();
-    }
-
-    public void editItem(int id) {
-
     }
 
     @Override
@@ -62,6 +67,18 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         holder.deleteButton.setOnClickListener(v -> {
             categoryList.remove(category);
             notifyDataSetChanged();
+
+            Call<Void> call = RetrofitClient.getInstance().getApi().deleteCategory(category.getId(), jwt);
+
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                }
+            });
         });
     }
 

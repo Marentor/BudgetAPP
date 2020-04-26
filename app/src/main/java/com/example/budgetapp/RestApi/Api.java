@@ -42,6 +42,9 @@ public interface Api {
     @DELETE("/transactions/{id}")
     Call<Void> deleteTransaction (@Path("id") int id, @Header("Authorization") String jwt);
 
+    @DELETE("/categories/{id}")
+    Call<Void> deleteCategory (@Path("id") int id, @Header("Authorization") String jwt);
+
     @PUT("/transactions/{id}")
     Call<Void> editTransaction(@Path("id") int id, @Header("Authorization") String jwt, @Body TransactionRequest transactionRequest);
 

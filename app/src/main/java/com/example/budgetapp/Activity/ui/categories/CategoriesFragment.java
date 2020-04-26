@@ -42,7 +42,7 @@ public class CategoriesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
         recyclerView = root.findViewById(R.id.category_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CategoriesAdapter(getContext(), categoryList);
+        adapter = new CategoriesAdapter(getContext(), categoryList, SharedPrefManager.getInstance(getActivity()).getjwt());
         recyclerView.setAdapter(adapter);
         fab = root.findViewById(R.id.fab);
         fab.setOnClickListener(view -> openAddCategoryActivity());
