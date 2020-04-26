@@ -105,7 +105,6 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Transaction> call, Throwable t) {
                 Toast.makeText(AddActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
 

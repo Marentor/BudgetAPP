@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.Activity.AddActivity;
+import com.example.budgetapp.Activity.CategoryActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.RestApi.RetrofitClient;
 import com.example.budgetapp.adapters.CategoriesAdapter;
@@ -69,7 +70,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void openAddTransactionActivity() {
-        Intent intent = new Intent(getActivity(), AddActivity.class);
+        Intent intent = new Intent(getActivity(), CategoryActivity.class);
         startActivity(intent);
     }
 }
