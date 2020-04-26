@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.Activity.CategoryActivity;
+import com.example.budgetapp.Activity.ShowActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.RestApi.RetrofitClient;
 import com.example.budgetapp.adapters.CategoriesAdapter;
@@ -24,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,19 +36,30 @@ public class CategoriesFragment extends Fragment {
     public static int ADD_ACTIVITY_REQ_CODE = 137;
 
     private RecyclerView recyclerView;
-    private List<Category> categoryList = new ArrayList<>();
     private CategoriesAdapter adapter;
     private FloatingActionButton fab;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Function<Integer, Integer> openCategoryEdit = position -> {
+            Intent intent = new Intent(getActivity(), CategoryActivity.class);
+            intent.putExtra("id", getAdapter().getCategoryList().get(position).getId());
+            intent.putExtra("name", getAdapter().getCategoryList().get(position).getName());
+            startActivityForResult(intent, ADD_ACTIVITY_REQ_CODE);
+            return null;
+        };
+
         View root = inflater.inflate(R.layout.fragment_categories, container, false);
         recyclerView = root.findViewById(R.id.category_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CategoriesAdapter(getContext(), categoryList, SharedPrefManager.getInstance(getActivity()).getjwt());
+        adapter = new CategoriesAdapter(getContext(), new ArrayList<>(), SharedPrefManager.getInstance(getActivity()).getjwt(), openCategoryEdit);
         recyclerView.setAdapter(adapter);
         fab = root.findViewById(R.id.fab);
         fab.setOnClickListener(view -> openAddCategoryActivity());
         return root;
+    }
+
+    public CategoriesAdapter getAdapter() {
+        return adapter;
     }
 
     @Override
@@ -80,9 +93,6 @@ public class CategoriesFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK)
-        {
-            loadCategoriesApi();
-        }
+        loadCategoriesApi();
     }
 }

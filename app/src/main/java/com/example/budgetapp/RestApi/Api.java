@@ -48,6 +48,7 @@ public interface Api {
     @PUT("/transactions/{id}")
     Call<Void> editTransaction(@Path("id") int id, @Header("Authorization") String jwt, @Body TransactionRequest transactionRequest);
 
-
+    @PUT("/categories/{id}")
+    Call<Void> editCategory(@Path("id") int id, @Header("Authorization") String jwt, @Body CategoryRequest categoryRequest);
 
 }

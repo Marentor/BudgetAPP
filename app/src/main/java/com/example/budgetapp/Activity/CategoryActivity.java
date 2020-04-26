@@ -31,6 +31,11 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_add);
         text_category = findViewById(R.id.text_category);
+        String nameIntent = getIntent().getStringExtra("name");
+        if (nameIntent != null) {
+            text_category.setText(nameIntent);
+        }
+
         btn_add = findViewById(R.id.btn_add);
         btn_add.setOnClickListener(v -> sendData());
     }
@@ -51,6 +56,36 @@ public class CategoryActivity extends AppCompatActivity {
 
         category = new CategoryRequest();
         category.setName(text_category.getText().toString());
+
+        Intent intent = getIntent();
+        int categoryId = intent.getIntExtra("id", 0);
+        if (categoryId > 0) {
+            APIeditCategory(loading, categoryId);
+        } else {
+            APIcreateCategory(loading);
+        }
+
+    }
+
+    private void APIeditCategory(ProgressDialog loading, int categoryId) {
+        Call<Void> call = RetrofitClient.getInstance().getApi().editCategory(categoryId, SharedPrefManager.getInstance(CategoryActivity.this).getjwt(), category);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                loading.dismiss();
+                Toast.makeText(CategoryActivity.this, "Category updated", Toast.LENGTH_LONG).show();
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(CategoryActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void APIcreateCategory(ProgressDialog loading) {
         Call<Category> call = RetrofitClient.getInstance().getApi().createCategory(SharedPrefManager.getInstance(CategoryActivity.this).getjwt(), category);
         call.enqueue(new Callback<Category>() {
             @Override
@@ -67,6 +102,5 @@ public class CategoryActivity extends AppCompatActivity {
                 Toast.makeText(CategoryActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 }

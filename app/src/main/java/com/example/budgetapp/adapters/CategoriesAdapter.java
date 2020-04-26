@@ -19,6 +19,7 @@ import com.example.budgetapp.storage.SharedPrefManager;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.function.Function;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,11 +29,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     private Context mContext;
     private List<Category> categoryList;
     private String jwt;
+    private Function<Integer, Integer> openCategoryEdit;
 
-    public CategoriesAdapter(Context mContext, List<Category> categoryList, String jwt) {
+    public CategoriesAdapter(Context mContext, List<Category> categoryList, String jwt, Function<Integer, Integer> openCategoryEdit) {
         this.mContext = mContext;
         this.categoryList = categoryList;
         this.jwt = jwt;
+        this.openCategoryEdit = openCategoryEdit;
     }
 
     public List<Category> getCategoryList() {
@@ -80,6 +83,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
                 }
             });
         });
+        holder.editButton.setOnClickListener(v -> {
+            openCategoryEdit.apply(position);
+        });
     }
 
     @Override
@@ -98,7 +104,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             textCategory = itemView.findViewById(R.id.text_category);
             editButton = itemView.findViewById(R.id.edit);
             deleteButton = itemView.findViewById(R.id.delete);
-
         }
     }
 
