@@ -51,9 +51,11 @@ public class ShowActivity extends AppCompatActivity {
         text_Amount.setText(String.valueOf(amount));
         text_description.setText(intent.getStringExtra("description"));
         attachment=intent.getStringExtra("attachment");
-        byte[] decodedString= Base64.decode(attachment,Base64.DEFAULT);
-        Bitmap decodedImage= BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
-        imageView.setImageBitmap(decodedImage);
+        if(attachment!=null) {
+            byte[] decodedString = Base64.decode(attachment, Base64.DEFAULT);
+            Bitmap decodedImage = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imageView.setImageBitmap(decodedImage);
+        }
         id=intent.getIntExtra("id",-1);
         edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
+import com.example.budgetapp.models.Category;
 import com.example.budgetapp.models.Transaction;
 import com.example.budgetapp.models.User;
 
@@ -23,6 +24,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     private Context mContext;
     private List<Transaction> transactionList;
     private OntransactionListener ontransactionListener;
+    private List<Category> categoryList;
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
 
     public TransactionsAdapter(Context mContext, List<Transaction> transactionList, OntransactionListener ontransactionListener) {
         this.mContext = mContext;
@@ -54,6 +64,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             holder.textCreated_at.setText(transaction.getCreated_at());
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+        Category mcategory= categoryList.stream()
+                .filter(category -> transaction.getCategory_id()==(category.getId()))
+                .findAny()
+                .orElse(null);
+        if(mcategory==null){
+            holder.textCategory.setText("");
+        }
+        else {
+            String category = mcategory.getName();
+            holder.textCategory.setText(category);
         }
     }
 

@@ -19,6 +19,7 @@ import com.example.budgetapp.R;
 import com.example.budgetapp.RestApi.RetrofitClient;
 import com.example.budgetapp.adapters.TransactionsAdapter;
 import com.example.budgetapp.adapters.TransactionsAdapter.OntransactionListener;
+import com.example.budgetapp.models.Category;
 import com.example.budgetapp.models.Transaction;
 import com.example.budgetapp.storage.SharedPrefManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,6 +36,7 @@ public class TransactionsFragment extends Fragment implements OntransactionListe
     private List<Transaction> transactionList;
     private TransactionsAdapter adapter;
     private FloatingActionButton fab;
+    private List<Category> categoryList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_transactions, container, false);
@@ -57,9 +59,24 @@ public class TransactionsFragment extends Fragment implements OntransactionListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Call<List<Transaction>> call = RetrofitClient.getInstance().getApi().getTransactions(SharedPrefManager.getInstance(getActivity()).getjwt());
+        Call<List<Category>> call = RetrofitClient.getInstance().getApi().getCategories(SharedPrefManager.getInstance(getActivity()).getjwt());
 
-        call.enqueue(new Callback<List<Transaction>>() {
+        call.enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                adapter.setCategoryList(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Call<List<Transaction>> newcall = RetrofitClient.getInstance().getApi().getTransactions(SharedPrefManager.getInstance(getActivity()).getjwt());
+
+
+        newcall.enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 transactionList = response.body();

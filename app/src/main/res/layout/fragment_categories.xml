@@ -44,20 +44,30 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/category_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="363dp"
+            android:layout_height="285dp"
             android:scrollbars="none"
-            app:layout_constraintTop_toBottomOf="@id/imageView6"
-            tools:listitem="@layout/categories_recycler_item" />
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintVertical_bias="1.0"
+            tools:listitem="@layout/categories_recycler_item"
+            tools:visibility="visible">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="12dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/category_recycler"
             app:layout_constraintTop_toBottomOf="@id/category_recycler"
-            app:srcCompat="@drawable/delete_trash" />
+            app:srcCompat="@drawable/delete_trash"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
