@@ -32,6 +32,7 @@ import retrofit2.Response;
 
 public class TransactionsFragment extends Fragment implements OntransactionListener {
 
+    public static int ADD_ACTIVITY_REQ_CODE = 137;
     private RecyclerView recyclerView;
     private List<Transaction> transactionList;
     private TransactionsAdapter adapter;
@@ -73,14 +74,38 @@ public class TransactionsFragment extends Fragment implements OntransactionListe
             }
         });
 
+       loadTransactionsApi();
+
+    }
+
+    private void openAddTransactionActivity() {
+        Intent intent = new Intent(getActivity(), AddActivity.class);
+        startActivityForResult(intent,ADD_ACTIVITY_REQ_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadTransactionsApi();
+    }
+
+    @Override
+    public void onTransactionClick(int position) {
+        Intent intent= new Intent(getActivity(), ShowActivity.class);
+        intent.putExtra("description",transactionList.get(position).getDescription());
+        intent.putExtra("amount",transactionList.get(position).getAmount());
+        intent.putExtra("attachment",transactionList.get(position).getAttachment());
+        intent.putExtra("id",transactionList.get(position).getId());
+        startActivityForResult(intent,ADD_ACTIVITY_REQ_CODE);
+    }
+
+    private void loadTransactionsApi(){
         Call<List<Transaction>> newcall = RetrofitClient.getInstance().getApi().getTransactions(SharedPrefManager.getInstance(getActivity()).getjwt());
-
-
         newcall.enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 transactionList = response.body();
-              //  adapter = new TransactionsAdapter(getActivity(), transactionList,);
+                //  adapter = new TransactionsAdapter(getActivity(), transactionList,);
                 adapter.setTransactionList(transactionList);
                 adapter.notifyDataSetChanged();
             }
@@ -91,22 +116,5 @@ public class TransactionsFragment extends Fragment implements OntransactionListe
 
             }
         });
-
-    }
-
-    private void openAddTransactionActivity() {
-        Intent intent = new Intent(getActivity(), AddActivity.class);
-        startActivity(intent);
-    }
-
-
-    @Override
-    public void onTransactionClick(int position) {
-        Intent intent= new Intent(getActivity(), ShowActivity.class);
-        intent.putExtra("description",transactionList.get(position).getDescription());
-        intent.putExtra("amount",transactionList.get(position).getAmount());
-        intent.putExtra("attachment",transactionList.get(position).getAttachment());
-        intent.putExtra("id",transactionList.get(position).getId());
-        startActivity(intent);
     }
 }
