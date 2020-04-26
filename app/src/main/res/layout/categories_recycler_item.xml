@@ -18,9 +18,9 @@
 
     <ImageView
         android:id="@+id/edit"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:layout_margin="20dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/delete"
@@ -29,9 +29,9 @@
 
     <ImageView
         android:id="@+id/delete"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:layout_margin="20dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

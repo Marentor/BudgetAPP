@@ -44,11 +44,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/category_recycler"
-            android:layout_width="363dp"
+            android:layout_width="match_parent"
             android:layout_height="285dp"
             android:scrollbars="none"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             app:layout_constraintVertical_bias="1.0"
@@ -66,7 +67,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/category_recycler"
             app:layout_constraintTop_toBottomOf="@id/category_recycler"
-            app:srcCompat="@drawable/delete_trash"
+            app:srcCompat="@drawable/add_plus"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
