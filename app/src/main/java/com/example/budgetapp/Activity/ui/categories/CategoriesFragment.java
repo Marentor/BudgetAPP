@@ -1,5 +1,6 @@
 package com.example.budgetapp.Activity.ui.categories;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,14 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.budgetapp.Activity.AddActivity;
 import com.example.budgetapp.Activity.CategoryActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.RestApi.RetrofitClient;
 import com.example.budgetapp.adapters.CategoriesAdapter;
-import com.example.budgetapp.adapters.TransactionsAdapter;
 import com.example.budgetapp.models.Category;
-import com.example.budgetapp.models.Transaction;
 import com.example.budgetapp.storage.SharedPrefManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -32,6 +30,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoriesFragment extends Fragment {
+
+    public static int ADD_ACTIVITY_REQ_CODE = 137;
 
     private RecyclerView recyclerView;
     private List<Category> categoryList = new ArrayList<>();
@@ -45,14 +45,18 @@ public class CategoriesFragment extends Fragment {
         adapter = new CategoriesAdapter(getContext(), categoryList);
         recyclerView.setAdapter(adapter);
         fab = root.findViewById(R.id.fab);
-        fab.setOnClickListener(view -> openAddTransactionActivity());
+        fab.setOnClickListener(view -> openAddCategoryActivity());
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loadCategoriesApi();
 
+    }
+
+    private void loadCategoriesApi() {
         Call<List<Category>> call = RetrofitClient.getInstance().getApi().getCategories(SharedPrefManager.getInstance(getActivity()).getjwt());
 
         call.enqueue(new Callback<List<Category>>() {
@@ -66,11 +70,19 @@ public class CategoriesFragment extends Fragment {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
-    private void openAddTransactionActivity() {
+    private void openAddCategoryActivity() {
         Intent intent = new Intent(getActivity(), CategoryActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, ADD_ACTIVITY_REQ_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK)
+        {
+            loadCategoriesApi();
+        }
     }
 }

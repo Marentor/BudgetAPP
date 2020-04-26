@@ -1,6 +1,8 @@
 package com.example.budgetapp.Activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +57,8 @@ public class CategoryActivity extends AppCompatActivity {
             public void onResponse(Call<Category> call, Response<Category> response) {
                 loading.dismiss();
                 Toast.makeText(CategoryActivity.this, "Category created", Toast.LENGTH_LONG).show();
+
+                setResult(Activity.RESULT_OK);
                 finish();
             }
 
