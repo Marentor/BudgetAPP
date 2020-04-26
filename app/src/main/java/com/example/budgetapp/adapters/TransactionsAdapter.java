@@ -22,10 +22,12 @@ import java.util.List;
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionsViewHolder> {
     private Context mContext;
     private List<Transaction> transactionList;
+    private OntransactionListener ontransactionListener;
 
-    public TransactionsAdapter(Context mContext, List<Transaction> transactionList) {
+    public TransactionsAdapter(Context mContext, List<Transaction> transactionList, OntransactionListener ontransactionListener) {
         this.mContext = mContext;
         this.transactionList = transactionList;
+        this.ontransactionListener=ontransactionListener;
     }
 
     public List<Transaction> getTransactionList() {
@@ -40,7 +42,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     @Override
     public TransactionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.usercard, parent, false);
-        return new TransactionsViewHolder(view);
+        return new TransactionsViewHolder(view,ontransactionListener );
     }
 
     @Override
@@ -61,17 +63,32 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
 
-    class TransactionsViewHolder extends RecyclerView.ViewHolder {
+    class TransactionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textDescription, textAmount, textCategory, textCreated_at;
+        OntransactionListener ontransactionListener;
 
-        public TransactionsViewHolder(@NonNull View itemView) {
+        public TransactionsViewHolder(@NonNull View itemView,OntransactionListener ontransactionListener) {
             super(itemView);
 
             textAmount = itemView.findViewById(R.id.text_amount);
             textDescription = itemView.findViewById(R.id.text_description);
             textCreated_at = itemView.findViewById(R.id.text_created_at);
             textCategory = itemView.findViewById(R.id.text_category);
+            this.ontransactionListener = ontransactionListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            ontransactionListener.onTransactionClick(getAdapterPosition());
+
+        }
+    }
+
+    public interface  OntransactionListener{
+        void onTransactionClick(int position);
+
     }
 
 }

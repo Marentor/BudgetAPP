@@ -81,27 +81,29 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                if (response.body() != null) {
+                if (response.code() == 200) {
                     AuthResponse authResponse = response.body();
                     SharedPrefManager.getInstance(LoginActivity.this).saveJwt("Bearer " + authResponse.getJwt());
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-
-
+                    onLoginSuccess();
+                }
+                else {
+                    onLoginFailed();
                 }
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                onLoginFailed();
             }
         });
 
 
         new android.os.Handler().postDelayed(
                 () -> {
-                    // On complete call either onLoginSuccess or onLoginFailed
-                    onLoginSuccess();
-                    // onLoginFailed();
+
+
                     progressBar.setVisibility(View.GONE);
                     ;
                 }, 3000);

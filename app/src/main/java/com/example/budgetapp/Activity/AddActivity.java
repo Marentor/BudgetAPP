@@ -86,7 +86,7 @@ public class AddActivity extends AppCompatActivity {
         loading.show();
         loading.setCanceledOnTouchOutside(false);
         String description = text_description.getText().toString();
-        String amount = text_Amount.getText().toString().toString();
+        String amount = text_Amount.getText().toString();
 
         transaction = new TransactionRequest(description);
         transaction.setAmount(amount);

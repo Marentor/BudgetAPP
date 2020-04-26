@@ -7,12 +7,12 @@ public class User {
 
     private int id;
     private String created_at;
-    private double Balance;
+    private float balance;
 
-    public User(int id, String created_at, double balance) {
+    public User(int id, String created_at, float balance) {
         this.id = id;
         this.created_at = created_at;
-        Balance = balance;
+        this.balance = balance;
     }
 
     public int getId() {
@@ -27,11 +27,11 @@ public class User {
         return created_at;
     }
 
-    public double getBalance() {
-        return Balance;
+    public float getBalance() {
+        return balance;
     }
 
-    public void setBalance(double balance) {
-        Balance = balance;
+    public void setBalance(float balance) {
+        this.balance = balance;
     }
 }

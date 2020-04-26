@@ -18,8 +18,8 @@
 
             <TextView
                 android:id="@+id/text_description"
-                android:layout_width="187dp"
-                android:layout_height="25dp"
+                android:layout_width="184dp"
+                android:layout_height="36dp"
                 android:text="TextView"
                 android:textColor="#000000"
                 android:textSize="24sp"

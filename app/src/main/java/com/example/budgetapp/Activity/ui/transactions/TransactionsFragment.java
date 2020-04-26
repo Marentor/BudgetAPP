@@ -5,27 +5,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.Activity.AddActivity;
-import com.example.budgetapp.Activity.LoginActivity;
-import com.example.budgetapp.Activity.MainActivity;
+import com.example.budgetapp.Activity.ShowActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.RestApi.RetrofitClient;
 import com.example.budgetapp.adapters.TransactionsAdapter;
-import com.example.budgetapp.models.AuthResponse;
+import com.example.budgetapp.adapters.TransactionsAdapter.OntransactionListener;
 import com.example.budgetapp.models.Transaction;
-import com.example.budgetapp.models.TransactionsResponse;
-import com.example.budgetapp.models.User;
 import com.example.budgetapp.storage.SharedPrefManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,9 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.budgetapp.storage.SharedPrefManager.getInstance;
-
-public class TransactionsFragment extends Fragment {
+public class TransactionsFragment extends Fragment implements OntransactionListener {
 
     private RecyclerView recyclerView;
     private List<Transaction> transactionList;
@@ -48,7 +40,7 @@ public class TransactionsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_transactions, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new TransactionsAdapter(getActivity(), transactionList);
+        adapter = new TransactionsAdapter(getActivity(), transactionList,this);
         recyclerView.setAdapter(adapter);
         fab = root.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +63,9 @@ public class TransactionsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 transactionList = response.body();
-                adapter = new TransactionsAdapter(getActivity(), transactionList);
-                recyclerView.setAdapter(adapter);
+              //  adapter = new TransactionsAdapter(getActivity(), transactionList,);
+                adapter.setTransactionList(transactionList);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -90,4 +83,13 @@ public class TransactionsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onTransactionClick(int position) {
+        Intent intent= new Intent(getActivity(), ShowActivity.class);
+        intent.putExtra("description",transactionList.get(position).getDescription());
+        intent.putExtra("amount",transactionList.get(position).getAmount());
+        intent.putExtra("attachment",transactionList.get(position).getAttachment());
+        intent.putExtra("id",transactionList.get(position).getId());
+        startActivity(intent);
+    }
 }

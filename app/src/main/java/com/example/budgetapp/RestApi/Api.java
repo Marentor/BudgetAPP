@@ -14,11 +14,14 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface Api {
 
@@ -36,4 +39,13 @@ public interface Api {
 
     @GET("/categories")
     Call<List<Category>> getCategories(@Header("Authorization") String jwt);
+
+    @DELETE("/transactions/{id}")
+    Call<Void> deleteTransaction (@Path("id") int id, @Header("Authorization") String jwt);
+
+    @PUT("/transactions/{id}")
+    Call<Void> editTransaction(@Path("id") int id, @Header("Authorization") String jwt, @Body TransactionRequest transactionRequest);
+
+
+
 }

@@ -50,10 +50,10 @@
                 android:id="@+id/category_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView6"
                 android:scrollbars="vertical"
-                tools:listitem="@layout/categories_recycler_item"
-                />
+                app:layout_constraintTop_toBottomOf="@id/imageView6"
+                tools:layout_editor_absoluteX="-59dp"
+                tools:listitem="@layout/categories_recycler_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
