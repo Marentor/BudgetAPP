@@ -101,15 +101,17 @@ public class ShowActivity extends AppCompatActivity {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.code()==204){
+                if (response.code() == 204) {
                     Toast.makeText(ShowActivity.this, "Transaction Updated", Toast.LENGTH_LONG).show();
                     finish();
+                } else {
+                    Toast.makeText(ShowActivity.this, String.valueOf(response.code()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
+                Toast.makeText(ShowActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

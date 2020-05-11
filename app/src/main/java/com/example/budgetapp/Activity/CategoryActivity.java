@@ -49,6 +49,11 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void sendData() {
+        String categoryName = text_category.getText().toString();
+        if (categoryName.isEmpty()) {
+            Toast.makeText(this, "Missing category name", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final ProgressDialog loading = new ProgressDialog(CategoryActivity.this);
         loading.setMessage("Please Wait...");
         loading.show();

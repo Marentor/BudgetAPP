@@ -81,16 +81,23 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void sendData() {
+
+        String description = text_description.getText().toString();
+        String amount = text_Amount.getText().toString();
+        transaction = new TransactionRequest(description);
+        transaction.setAmount(amount);
+        transaction.setAttachment(attachment);
+        if (transaction.getAmount() < 0.01 & transaction.getAmount() > -0.01) {
+            Toast.makeText(this, "No amount entered", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final ProgressDialog loading = new ProgressDialog(AddActivity.this);
         loading.setMessage("Please Wait...");
         loading.show();
         loading.setCanceledOnTouchOutside(false);
-        String description = text_description.getText().toString();
-        String amount = text_Amount.getText().toString();
 
-        transaction = new TransactionRequest(description);
-        transaction.setAmount(amount);
-        transaction.setAttachment(attachment);
+
         Call<Transaction> call = RetrofitClient.getInstance().getApi().createTransaction(SharedPrefManager.getInstance(AddActivity.this).getjwt(), transaction);
         call.enqueue(new Callback<Transaction>() {
             @Override
